@@ -1,10 +1,9 @@
 const Admin = require('../models/adminModel');
-const Driver = require('../models/driverModel');
 const jwt = require('jsonwebtoken');
 const appdetails = require('../config/appdetails.json');
 const moment = require('moment');
 const bcrypt = require('bcrypt');
-const Ambulance = require('../models/ambulanceModel');
+
 
 module.exports = {
   registerAdmin(req, res, next){
