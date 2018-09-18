@@ -34,7 +34,7 @@ module.exports = {
       next()
     }
   },
-  adminPassUpdate (req, res, next){
+  passUpdate (req, res, next){
     const schema = {
       formerPass: Joi.string(),
       newPass: Joi.string()
@@ -59,5 +59,5 @@ module.exports = {
     }else{
       next()
     }
-  }
+  } 
 }

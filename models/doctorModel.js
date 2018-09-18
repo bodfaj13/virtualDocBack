@@ -1,7 +1,8 @@
 var mongoose = require('../config/mongoose');
 var bcrypt = require('bcrypt');
+var Schema = mongoose.Schema;
 
-var patientsSchema = mongoose.Schema({
+var doctorsSchema = mongoose.Schema({
   fullName: {
     type: String,
     required: true
@@ -29,9 +30,30 @@ var patientsSchema = mongoose.Schema({
   },
   spaciality: {
     type: String
-  }
+  },
+  gender: {
+    type: String
+  },
+  contact: {
+    type: String
+  },
+  inHospital: {
+    type: Boolean,
+    default: true
+  },
+  address:{
+    type: String
+  },
+  complaints: [{
+    complaintsId: {
+      type: Schema.Types.ObjectId
+    },
+    patientId: {
+      type: Schema.Types.ObjectId
+    }
+  }],
 });
 
-var Patient = mongoose.model('patients', patientsSchema);
-module.exports = Patient
+var Doctor = mongoose.model('doctors', doctorsSchema);
+module.exports = Doctor
 

@@ -1,5 +1,6 @@
 var mongoose = require('../config/mongoose');
 var bcrypt = require('bcrypt');
+var Schema = mongoose.Schema;
 
 var patientsSchema = mongoose.Schema({
   fullName: {
@@ -20,12 +21,20 @@ var patientsSchema = mongoose.Schema({
     type: String
   },
   stillActive: {
-      type: Boolean,
-      required: true,
-      default: true
+    type: Boolean,
+    required: true,
+    default: true
   },
   createdAt: {
-    type: Date
+    type: String
+  },
+  complaints: [{
+    complaintId: {
+      type: Schema.Types.ObjectId
+    }
+  }],
+  address:{
+    type: String
   }
 });
 

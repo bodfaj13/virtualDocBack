@@ -34,3 +34,122 @@ router.get("/api/check", function(req, res) {
 router.get("/api/standard", function(req, res) {
   res.send("standard");
 });
+
+
+
+{
+      path: '/dashboard',
+      // name: 'Dashboard',
+      component: Dashboard,
+      children: [
+        {
+          path: '',
+          name: 'RecordCall',
+          component: RecordCall
+        },
+        {
+          path: 'active-cases',
+          name: 'ActiveCases',
+          component: ActiveCases
+        },
+        {
+          path: 'settings',
+          name: 'Settings',
+          component: Settings
+        },
+        {
+          path: 'create-driver',
+          name: 'CreateDriver',
+          component: CreateDriver
+        },
+        {
+          path: 'create-ambulance',
+          name: 'CreateAmbulance',
+          component: CreateAmbulance
+        }
+      ],
+      beforeEnter: (to, from, next) => {
+        var isAuth = store.state.isAdminLoggedIn
+        if (isAuth === false) {
+          console.log('access denied!')
+          next('/')
+        }
+        next()
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+,
+  getDoctorComplaints(req, res, next){
+    var doctorId = req.body.doctorId;
+    console.log(doctorId)
+    Complaint.find({doctorId: doctorId}).then(function(data){
+      console.log(data)
+      res.send({
+        data: data
+      });
+    }).catch(function(error){
+      console.log(error.message);
+      res.status(400).send({
+        error: "Something went wrong"
+      });
+    });
+  },
+  getDoctortActiveComplaint(req, res, next){
+    var doctorId = req.body.doctorId;
+    console.log(doctorId)
+    Complaint.find({doctorId: doctorId, stillActive: true, triggered: true}).then(function(data){
+      console.log(data)
+      res.send({
+        data: data
+      });
+    }).catch(function(error){
+      console.log(error.message);
+      res.status(400).send({
+        error: "Something went wrong"
+      });
+    });
+  },
+  getDoctorResolvedComplaint(req, res, next){
+    var doctorId = req.body.doctorId;
+    console.log(doctorId)
+    Complaint.find({doctorId: doctorId, stillActive: false, triggered: true}).then(function(data){
+      console.log(data)
+      res.send({
+        data: data
+      });
+    }).catch(function(error){
+      console.log(error.message);
+      res.status(400).send({
+        error: "Something went wrong"
+      });
+    });
+  },
+
+
+
+
+
+
+
+
+
+
+https://virtualdoc-back.herokuapp.com/
+
+username = admin
+mlab pass
+virtualDoc1
+mongodb://admin:virtualDoc1@ds161062.mlab.com:61062/virtualdoc

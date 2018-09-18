@@ -26,7 +26,7 @@ var adminSchema = mongoose.Schema({
       default: true
   },
   createdAt: {
-    type: Date
+    type: String
   }
 });
 
