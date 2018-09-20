@@ -18,7 +18,9 @@ var patientsSchema = mongoose.Schema({
     bcrypt: true
   },
   contactNo: {
-    type: String
+    type: String,
+    unique: true,
+    required: true
   },
   stillActive: {
     type: Boolean,
@@ -29,11 +31,15 @@ var patientsSchema = mongoose.Schema({
     type: String
   },
   complaints: [{
-    complaintId: {
-      type: Schema.Types.ObjectId
-    }
+    type: Schema.Types.ObjectId
   }],
-  address:{
+  homeAddress: {
+    type: String
+  },
+  gender: {
+    type: String
+  },
+  ageGroup: {
     type: String
   }
 });

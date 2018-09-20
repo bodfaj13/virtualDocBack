@@ -20,6 +20,19 @@ router.get("/api", function (req, res, next) {
     res.send({msg: "hello world"});
 })
 
+//registerpatient
+router.post(
+  "/api/registerpatient",
+  ControllerPolicy.registerPatient,
+  AuthController.registerPatient
+);
+
+//registerdoctor
+router.post(
+  "/api/registerdoctor", ControllerPolicy.registerDoctor,
+  AuthController.registerDoctor
+);
+
 //adminlogin
 router.post("/api/adminlogin", AuthController.adminLogin);
 
@@ -53,6 +66,9 @@ router.get("/api/getdoctor", DataController.getDoctor);
 
 //getpatient
 router.get("/api/getpatient", DataController.getPatient);
+
+//getcomplaint
+router.get("/api/getcomplaint", DataController.getComplaint);
 
 //getdocvtorsavailable
 router.get("/api/getdocvtorsavailable", DataController.getDoctorsAvailable);
@@ -116,12 +132,6 @@ router.post(
   AuthController.adminPassUpdate
 );
 
-//registerdoctor
-router.post(
-  "/api/registerdoctor",
-  AuthController.registerDoctor
-);
-
 //doctor-update-pass
 router.post(
   "/api/doctorupdatepass",
@@ -156,5 +166,11 @@ router.post(
 router.post(
   "/api/accepttreatment",
   FunctionController.acceptTreatment
+);
+
+//chnagestatus
+router.post(
+  "/api/changestatus",
+  FunctionController.changeStatus
 );
 module.exports = router;

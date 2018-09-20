@@ -26,31 +26,30 @@ var doctorsSchema = mongoose.Schema({
       default: true
   },
   createdAt: {
-    type: Date
+    type: String
   },
-  spaciality: {
+  specialization: {
     type: String
   },
   gender: {
     type: String
   },
-  contact: {
-    type: String
+  contactNo: {
+    type: String,
+    unique: true,
+    required: true
   },
   inHospital: {
-    type: Boolean,
-    default: true
+    type: Boolean
   },
-  address:{
+  homeAddress:{
     type: String
   },
   complaints: [{
-    complaintsId: {
-      type: Schema.Types.ObjectId
-    },
-    patientId: {
-      type: Schema.Types.ObjectId
-    }
+    type: Schema.Types.ObjectId
+  }],
+  patientId: [{
+    type: Schema.Types.ObjectId
   }],
 });
 

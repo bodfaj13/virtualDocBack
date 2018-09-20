@@ -57,10 +57,12 @@ module.exports = {
   registerDoctor(req, res, next) {
     var fullName = req.body.fullName;
     var email = req.body.email;
-    var address = req.body.address;
+    var homeAddress = req.body.homeAddress;
     var gender = req.body.gender;
     var password = req.body.password;
-    var contact = req.body.contact;
+    var contactNo = req.body.contactNo;
+    var specialization = req.body.specialization;
+    var inHospital = req.body.inHospital;
     var createdAt = moment().format("ddd, MM DD YYYY, h:mm:ss a");
 
     var doctorDetails = { 
@@ -68,30 +70,47 @@ module.exports = {
       email: email,
       gender: gender,
       password: password,
-      contact: contact,
-      address: address,
-      createdAt: createdAt
+      contactNo: contactNo,
+      homeAddress: homeAddress,
+      createdAt: createdAt,
+      specialization: specialization,
+      inHospital: inHospital
     };
 
     bcrypt.hash(doctorDetails.password, 10, function(err, hash){
         if(err)throw err;
-        driverDetails.password = hash;
+        doctorDetails.password = hash;
         
-        Driver.findOne({ email: doctorDetails.email })
+        Doctor.findOne({ email: doctorDetails.email })
         .then(function(data) {
           if (!data) {
-            var doctor = new Driver(doctorDetails);
-            doctor
-              .save()
-              .then(function(data) {
-              console.log(data);
-              res.send({
-                success: "Registration done successfully",
-                entity: 'Doctor'
-              });
+            Doctor.findOne({ contactNo: doctorDetails.contactNo })
+            .then(function(data) {
+              if (!data) {
+                var doctor = new Doctor(doctorDetails);
+                doctor
+                  .save()
+                  .then(function(data) {
+                  console.log(data);
+                  res.send({
+                    success: "Doctor Registration done successfully",
+                    entity: 'Doctor'
+                  });
+                })
+                .catch(function(error) {
+                  console.log(error.message);
+                  res.status(400).send({
+                    error: error
+                  });
+                });
+              } else {
+                res.status(400).send({
+                  error_Contact: "Contact Number is already registered"
+                });
+              }
             })
             .catch(function(error) {
-              console.log(error.message);
+              console.log(error);
               res.status(400).send({
                 error: error
               });
@@ -242,10 +261,11 @@ module.exports = {
   registerPatient(req, res, next) {
     var fullName = req.body.fullName;
     var email = req.body.email;
-    var address = req.body.address;
+    var homeAddress = req.body.homeAddress;
     var gender = req.body.gender;
+    var ageGroup = req.body.ageGroup;
     var password = req.body.password;
-    var contact = req.body.contact;
+    var contactNo = req.body.contactNo;
     var createdAt = moment().format("ddd, MM DD YYYY, h:mm:ss a");
 
     var patientDetails = { 
@@ -253,30 +273,46 @@ module.exports = {
       email: email,
       gender: gender,
       password: password,
-      contact: contact,
-      address: address,
-      createdAt: createdAt
+      contactNo: contactNo,
+      homeAddress: homeAddress,
+      createdAt: createdAt,
+      ageGroup: ageGroup
     };
 
     bcrypt.hash(patientDetails.password, 10, function(err, hash){
         if(err)throw err;
-        driverDetails.password = hash;
+        patientDetails.password = hash;
         
         Patient.findOne({ email: patientDetails.email })
         .then(function(data) {
           if (!data) {
-            var doctor = new Driver(patientDetails);
-            doctor
-              .save()
-              .then(function(data) {
-              console.log(data);
-              res.send({
-                success: "Registration done successfully",
-                entity: 'Patient'
-              });
+            Patient.findOne({ contactNo: patientDetails.contactNo })
+            .then(function(data) {
+              if (!data) {
+                var patient = new Patient(patientDetails);
+                patient
+                  .save()
+                  .then(function(data) {
+                  console.log(data);
+                  res.send({
+                    success: "Patient Registration done successfully",
+                    entity: 'Patient'
+                  });
+                })
+                .catch(function(error) {
+                  console.log(error.message);
+                  res.status(400).send({
+                    error: error
+                  });
+                });
+              } else {
+                res.status(400).send({
+                  error_Contact: "Contact Number is already registered"
+                });
+              }
             })
             .catch(function(error) {
-              console.log(error.message);
+              console.log(error);
               res.status(400).send({
                 error: error
               });

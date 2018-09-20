@@ -118,8 +118,19 @@ module.exports = {
       });
     });
   },
+  getComplaint(req, res, next){
+    Complaint.find({}).then(function(data){
+      res.send({
+        data: data
+      });
+    }).catch(function(error){
+      res.status(400).send({
+        error: "Something went wrong"
+      });
+    });
+  },
   getDoctorsAvailable(req, res, next){
-    Patient.find({inHospital: true}).then(function(data){
+    Doctor.find({inHospital: true}).then(function(data){
       res.send({
         data: data
       });
@@ -130,7 +141,7 @@ module.exports = {
     });
   }, 
   getActiveComplaint(req, res, next){
-    Complaint.find({stillActive: true, triggered: true, doctorId: null}).then(function(data){
+    Complaint.find({stillActive: true, triggered: true}).then(function(data){
       res.send({
         data: data
       });

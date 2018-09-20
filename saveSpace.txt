@@ -153,3 +153,79 @@ username = admin
 mlab pass
 virtualDoc1
 mongodb://admin:virtualDoc1@ds161062.mlab.com:61062/virtualdoc
+
+
+
+
+
+
+
+  registerPatient(req, res, next) {
+    var fullName = req.body.fullName;
+    var email = req.body.email;
+    var homeAddress = req.body.homeAddress;
+    var gender = req.body.gender;
+    var ageGroup = req.body.ageGroup;
+    var password = req.body.password;
+    var contactNo = req.body.contactNo;
+    var createdAt = moment().format("ddd, MM DD YYYY, h:mm:ss a");
+
+    var patientDetails = { 
+      fullName: fullName,
+      email: email,
+      gender: gender,
+      password: password,
+      contactNo: contactNo,
+      homeAddress: homeAddress,
+      createdAt: createdAt,
+      ageGroup: ageGroup
+    };
+
+    bcrypt.hash(patientDetails.password, 10, function(err, hash){
+        if(err)throw err;
+        patientDetails.password = hash;
+        
+        Patient.findOne({ email: patientDetails.email })
+        .then(function(data) {
+          if (!data) {
+            Patient.findOne({ contactNo: patientDetails.email })
+            .then(function(data) {
+              if (!data) {
+                
+              } else {
+                res.status(400).send({
+                  error_Email: "Email is already taken"
+                });
+              }
+            })
+            .catch(function(error) {
+              console.log(error);
+              res.status(400).send({
+                error: error
+              });
+            });
+          } else {
+            res.status(400).send({
+              error_Email: "Email is already taken"
+            });
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+          res.status(400).send({
+            error: error
+          });
+        });
+    });
+  
+
+
+
+
+
+
+
+
+
+
+  https://virtualdoc-back.herokuapp.com/

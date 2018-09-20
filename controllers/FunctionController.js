@@ -74,6 +74,14 @@ module.exports = {
 
       data.save().then(function(data){
         console.log(data);
+        var hold = data;
+        Doctor.findById(doctorId).then(function(data){
+          data.complaints.push(hold._id);
+          data.patientId.push(hold.patientId);
+          data.save().then(function(data){
+            console.log(data);
+          });
+        })
         res.send({
           success: "Complaint answered successfully",
           entity: "Complaint"
@@ -110,6 +118,44 @@ module.exports = {
         res.send({
           success: "Complaint accepted successfully",
           entity: "Complaint"
+        });
+      }).catch(function(error){
+        console.log(error.message);
+        res.status(400).send({
+          error: "Something went wrong"
+        });
+      });
+    }).catch(function(error){
+      console.log(error.message);
+      res.status(400).send({
+        error: "Something went wrong"
+      });
+    });
+  },
+  changeStatus(req, res, next) {
+    var doctorId = req.body.doctorId;
+    var inHospital = req.body.inHospital;
+    var updateAt = moment().format("ddd, MM DD YYYY, h:mm:ss a");
+
+    var doctorDetails = {
+      updateAt: updateAt,
+      inHospital: inHospital,
+      doctorId: doctorId
+    };
+
+    console.log(doctorDetails);
+
+    Doctor.findById(doctorId).then(function(data){
+      data.inHospital = doctorDetails.inHospital;
+      data.updateAt = doctorDetails.updateAt;
+
+      
+      data.save().then(function(data){
+        console.log(data);
+        res.send({
+          success: "Status changed successfully",
+          entity: "Doctor",
+          data: data
         });
       }).catch(function(error){
         console.log(error.message);
