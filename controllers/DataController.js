@@ -141,7 +141,7 @@ module.exports = {
     });
   }, 
   getActiveComplaint(req, res, next){
-    Complaint.find({stillActive: true, triggered: true}).then(function(data){
+    Complaint.find({stillActive: true, triggered: true, doctorId: null}).then(function(data){
       res.send({
         data: data
       });

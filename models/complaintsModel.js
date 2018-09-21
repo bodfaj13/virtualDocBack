@@ -20,7 +20,7 @@ var complaintsSchema = mongoose.Schema({
   doctorName: {
     type: String
   },
-  doctorRemark: {
+  medicalRemark: {
     type: String
   },
   createdAt: {

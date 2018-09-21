@@ -17,13 +17,10 @@ var doctorsSchema = mongoose.Schema({
     required: true,
     bcrypt: true
   },
-  contactNo: {
-    type: String
-  },
   stillActive: {
-      type: Boolean,
-      required: true,
-      default: true
+    type: Boolean,
+    required: true,
+    default: true
   },
   createdAt: {
     type: String

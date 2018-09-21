@@ -27,6 +27,13 @@ router.post(
   AuthController.registerPatient
 );
 
+//registeradmin
+router.post(
+  "/api/registeradmin",
+  AuthController.registerAdmin
+);
+
+
 //registerdoctor
 router.post(
   "/api/registerdoctor", ControllerPolicy.registerDoctor,

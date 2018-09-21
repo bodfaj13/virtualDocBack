@@ -55,23 +55,26 @@ module.exports = {
   answerComplaint(req, res, next) {
     var complaintId = req.body.complaintId;
     var doctorId = req.body.doctorId;
-    var doctorRemark= req.body.doctorRemark;
+    var doctorName = req.body.doctorName;
+    var medicalRemark= req.body.medicalRemark;
     var medicalPrescrption= req.body.medicalPrescrption;
     var updateAt = moment().format("ddd, MM DD YYYY, h:mm:ss a");
 
     var complaintsDetails = {
       updateAt: updateAt,
       doctorId: doctorId,
-      doctorRemark: doctorRemark,
-      medicalPrescrption: medicalPrescrption
+      medicalRemark: medicalRemark,
+      medicalPrescrption: medicalPrescrption,
+      doctorName: doctorName
     };
 
     Complaint.findById(complaintId).then(function(data){
       data.updateAt = complaintsDetails.updateAt;
       data.doctorId = complaintsDetails.doctorId;
-      data.doctorRemark = complaintsDetails.doctorRemark
+      data.medicalRemark = complaintsDetails.medicalRemark
       data.medicalPrescrption = complaintsDetails.medicalPrescrption
-
+      data.doctorName = complaintsDetails.doctorName
+      
       data.save().then(function(data){
         console.log(data);
         var hold = data;
